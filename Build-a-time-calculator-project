@@ -1,26 +1,61 @@
-def add_time(start, duration):
+def add_time(start, duration,weekday=None):
     start_part, meridiem = start.split()
     hour, minute = start_part.split(':')
+    day_after=0
+    half_day=0
+    hour_increment=0
+
+    week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
     
     duration_hour,duration_minute=duration.split(':')
+    new_minute=(int(minute)+int(duration_minute))
+    total_hour=int(hour)+int(duration_hour)
+    if new_minute>59:
+        new_minute=(int(minute)+int(duration_minute))%60
+        hour_increment+=1
+    if hour_increment>0:
+        new_hour=(total_hour)%12+hour_increment
+    else:
+        new_hour=(total_hour)%12    
+    print(new_hour)
 
 
-    new_hour=int(hour)+int(duration_hour)
-    if new_hour>12 and meridiem=='AM':
-        new_hour=new_hour-12
+    if len(str(new_minute))==1:
+        new_minute='0'+str(new_minute)
+        
+    if meridiem=='AM'  and total_hour>=12:
         meridiem='PM'
-    if new_hour>12 and meridiem=='PM':
-        new_hour=new_hour-12
-        meridiem='AM'    
-    if duration_hour    
-    new_minute=int(minute)+int(duration_minute)
-    new_time=str(new_hour)+':'+str(new_minute)+' '+meridiem
+    if meridiem=='PM' and total_hour>=12:
+        meridiem='AM' 
+        day_after+=1
+        if int(total_hour)>=24:
+            day_after+=total_hour%24
+    print(day_after)    
     
 
-
+    if weekday :
+        current_day_index = week.index(weekday.capitalize())   
+        print("CDI:",current_day_index)
+        print(day_after) 
+        if (current_day_index+day_after)>6:
+            new_day=(day_after%2)
+        else:
+            new_day=  current_day_index+day_after
+        new_weekday=week[new_day]
+        if day_after==1:
+            new_time=f"{new_hour}:{new_minute} {meridiem}, {new_weekday} (next day)"
+        elif day_after==0:
+            new_time=f"{new_hour}:{new_minute} {meridiem}, {new_weekday}" 
+        else:
+            new_time=f"{new_hour}:{new_minute} {meridiem}, {new_weekday} ({day_after} days later)"   
+        
+    elif day_after>0:
+        new_time=f"{new_hour}:{new_minute} {meridiem} ({day_after} days later)" 
+    else:
+        new_time=f"{new_hour}:{new_minute} {meridiem}"    
 
 
     return new_time
 
 
-print(add_time('3:00 PM', '12:10'))
+print(add_time('8:16 PM', '466:02', 'tuesday'))
