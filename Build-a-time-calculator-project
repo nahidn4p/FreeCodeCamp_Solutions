@@ -1,11 +1,26 @@
 def add_time(start, duration):
-    hour,minute,meridiem=start.split()
-    print(hour)
+    start_part, meridiem = start.split()
+    hour, minute = start_part.split(':')
+    
+    duration_hour,duration_minute=duration.split(':')
+
+
+    new_hour=int(hour)+int(duration_hour)
+    if new_hour>12 and meridiem=='AM':
+        new_hour=new_hour-12
+        meridiem='PM'
+    if new_hour>12 and meridiem=='PM':
+        new_hour=new_hour-12
+        meridiem='AM'    
+    if duration_hour    
+    new_minute=int(minute)+int(duration_minute)
+    new_time=str(new_hour)+':'+str(new_minute)+' '+meridiem
+    
 
 
 
 
-    #return new_time
+    return new_time
 
 
-add_time('3:00 PM', '3:10')
+print(add_time('3:00 PM', '12:10'))
