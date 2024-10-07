@@ -1,0 +1,11 @@
+def add_time(start, duration):
+    hour,minute,meridiem=start.split()
+    print(hour)
+
+
+
+
+    #return new_time
+
+
+add_time('3:00 PM', '3:10')
